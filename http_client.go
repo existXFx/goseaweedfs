@@ -95,8 +95,9 @@ func (c *httpClient) download(url string, callback func(io.Reader) error) (filen
 
 		contentDisposition := r.Header["Content-Disposition"]
 		if len(contentDisposition) > 0 {
-			if strings.HasPrefix(contentDisposition[0], "filename=") {
-				filename = contentDisposition[0][len("filename="):]
+			if strings.Contains(contentDisposition[0], "filename=") {
+				index := strings.Index(contentDisposition[0], "filename=")
+				filename = contentDisposition[0][index+len("filename="):]
 				filename = strings.Trim(filename, "\"")
 			}
 		}
