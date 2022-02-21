@@ -95,11 +95,12 @@ func (c *httpClient) download(url string, callback func(io.Reader) error) (filen
 
 		contentDisposition := r.Header["Content-Disposition"]
 		if len(contentDisposition) > 0 {
-			if strings.Contains(contentDisposition[0], "filename=") {
-				index := strings.Index(contentDisposition[0], "filename=")
-				filename = contentDisposition[0][index+len("filename="):]
-				filename = strings.Trim(filename, "\"")
+			_, params, err := mime.ParseMediaType(`inline; filename="foo.png"`)
+			if err != nil {
+				return "", err
 			}
+
+			return params["filename"], nil
 		}
 
 		// execute callback
