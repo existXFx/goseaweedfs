@@ -95,7 +95,7 @@ func (c *httpClient) download(url string, callback func(io.Reader) error) (filen
 
 		contentDisposition := r.Header["Content-Disposition"]
 		if len(contentDisposition) > 0 {
-			_, params, err := mime.ParseMediaType(`inline; filename="foo.png"`)
+			_, params, err := mime.ParseMediaType(contentDisposition[0])
 			if err != nil {
 				return "", err
 			}
