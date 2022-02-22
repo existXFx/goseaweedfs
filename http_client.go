@@ -100,7 +100,7 @@ func (c *httpClient) download(url string, callback func(io.Reader) error) (filen
 				return "", err
 			}
 
-			return params["filename"], nil
+			filename = params["filename"]
 		}
 
 		// execute callback
